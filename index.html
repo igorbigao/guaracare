@@ -462,7 +462,21 @@ ul { list-style: none; }
 .r-retry { background: none; border: none; color: var(--sub); font-size: 12px; cursor: pointer; font-family: var(--font); text-decoration: underline; letter-spacing: .06em; margin-top: 4px; }
 .r-disclaimer { font-size: 11px; color: var(--sub); margin-top: 20px; padding: 12px 16px; background: var(--off-white); border-radius: 8px; line-height: 1.6; text-align: left; border-left: 3px solid var(--gray-border); }
 
-/* ── ABOUT ── */
+/* ── QUIZ METHODOLOGY BOX ── */
+.quiz-method-box { margin: 24px auto 0; max-width: 600px; border: 1px solid var(--gray-border); border-radius: 10px; overflow: hidden; background: var(--white); }
+.quiz-method-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; background: none; border: none; font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--gray); cursor: pointer; text-align: left; transition: background .2s; }
+.quiz-method-toggle:hover { background: var(--off-white); }
+.quiz-method-toggle span { flex: 1; }
+.method-chevron { flex-shrink: 0; transition: transform .3s; color: var(--gray-lt); }
+.quiz-method-box.open .method-chevron { transform: rotate(180deg); }
+.quiz-method-content { display: none; padding: 0 20px 20px; font-size: 13px; color: var(--sub); line-height: 1.7; border-top: 1px solid var(--off-white); }
+.quiz-method-box.open .quiz-method-content { display: block; padding-top: 16px; }
+.method-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 16px; }
+.method-stat { background: var(--off-white); border-radius: 8px; padding: 12px; text-align: center; }
+.method-stat strong { display: block; font-size: 1.1rem; font-weight: 700; color: var(--orange); }
+.method-stat span { font-size: 11px; color: var(--gray-lt); line-height: 1.4; margin-top: 3px; display: block; }
+
+
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
 .about-img-wrap { position: relative; }
 .about-img-placeholder { width: 100%; aspect-ratio: 4/5; border-radius: var(--radius-lg); background: linear-gradient(160deg, #e8e0d8 0%, var(--off-white) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--sub); gap: 12px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--gray-border); }
@@ -598,7 +612,7 @@ ul { list-style: none; }
         <li><a href="#produtos">Produtos</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#marcas">Equipamentos</a></li>
-        <li><a href="#quiz-section" class="nav-quiz-btn">🧪 Teste STOP-BANG</a></li>
+        <li><a href="#quiz-section" class="nav-quiz-btn">🌙 Teste do Sono</a></li>
         <li>
           <a href="https://wa.me/5542988665313" target="_blank" rel="noopener" class="btn btn--orange" style="padding:9px 18px;font-size:11px">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -614,7 +628,7 @@ ul { list-style: none; }
     <a href="#condicoes">Condições</a>
     <a href="#produtos">Produtos</a>
     <a href="#faq">FAQ</a>
-    <a href="#quiz-section" style="color:var(--orange)!important">🧪 Teste STOP-BANG — Grátis</a>
+    <a href="#quiz-section" style="color:var(--orange)!important">🌙 Teste do Sono — Grátis</a>
     <a href="https://wa.me/5542988665313" target="_blank" rel="noopener">WhatsApp</a>
   </div>
 </header>
@@ -705,8 +719,26 @@ ul { list-style: none; }
     <div class="quiz-wrap">
       <div class="quiz-header">
         <span class="eyebrow">Avaliação Gratuita de Risco</span>
-        <h2 class="heading" style="margin:0 auto;text-align:center">Questionário STOP-BANG</h2>
+        <h2 class="heading" style="margin:0 auto;text-align:center">Teste do Sono</h2>
         <p class="body-text" style="text-align:center;margin:14px auto 0">Responda com honestidade. Não há respostas certas ou erradas — apenas dados que nos ajudam a orientar você da melhor forma possível.</p>
+
+        <!-- Methodology info box -->
+        <div class="quiz-method-box">
+          <button class="quiz-method-toggle" onclick="this.closest('.quiz-method-box').classList.toggle('open')" aria-expanded="false">
+            <span>🔬 Sobre este teste — como funciona e por que é confiável</span>
+            <svg class="method-chevron" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="quiz-method-content">
+            <p>Este teste utiliza o <strong>questionário STOP-BANG</strong>, uma ferramenta de triagem desenvolvida por pesquisadores da <strong>University of Toronto</strong> e publicada no periódico científico <em>Anesthesiology</em> em 2008. É o método de rastreamento de apneia do sono mais validado e amplamente utilizado no mundo, adotado por hospitais, clínicas e sociedades médicas em mais de 50 países.</p>
+            <p style="margin-top:12px">O nome é um acrônimo em inglês das 8 perguntas: <strong>S</strong>noring (ronco), <strong>T</strong>ired (cansaço), <strong>O</strong>bserved (pausas observadas), <strong>P</strong>ressure (pressão alta), <strong>B</strong>MI (índice de massa corporal), <strong>A</strong>ge (idade), <strong>N</strong>eck (circunferência do pescoço) e <strong>G</strong>ender (sexo biológico).</p>
+            <div class="method-stats">
+              <div class="method-stat"><strong>96%</strong><span>Sensibilidade para apneia moderada/grave</span></div>
+              <div class="method-stat"><strong>8 perguntas</strong><span>Resultado em menos de 2 minutos</span></div>
+              <div class="method-stat"><strong>+50 países</strong><span>Validado e usado mundialmente</span></div>
+            </div>
+            <p style="margin-top:12px;font-size:12px;color:var(--gray-lt)">⚕️ Este questionário é uma ferramenta de <strong>triagem</strong> — não substitui diagnóstico médico. O diagnóstico definitivo de apneia do sono requer polissonografia prescrita por médico.</p>
+          </div>
+        </div>
       </div>
 
       <div class="quiz-container" id="quizContainer">
@@ -1087,7 +1119,7 @@ ul { list-style: none; }
       <div class="faq-item"><button class="faq-q" aria-expanded="false">O que é o Questionário STOP-BANG?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">O STOP-BANG é um questionário clínico validado internacionalmente para rastrear o risco de apneia obstrutiva do sono. Avalia 8 fatores: Ronco (S), Cansaço (T), Pausas observadas (O), Pressão alta (P), IMC (B), Idade (A), Pescoço (N) e Sexo (G). Pontuação ≥ 3 indica risco intermediário ou alto e requer avaliação especializada.</div></div>
       <div class="faq-item"><button class="faq-q" aria-expanded="false">O que é CPAP e para que serve?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">O CPAP (Pressão Positiva Contínua nas Vias Aéreas) é um equipamento que mantém as vias aéreas abertas durante o sono por meio de um fluxo contínuo de ar pressurizado. É o tratamento mais eficaz para apneia obstrutiva do sono e elimina as paradas respiratórias, reduz o ronco e melhora significativamente a qualidade de vida.</div></div>
       <div class="faq-item"><button class="faq-q" aria-expanded="false">Qual a diferença entre CPAP, CPAP automático e BiPAP?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">O CPAP fornece pressão fixa definida por um médico. O CPAP automático (AutoSet) ajusta a pressão conforme as necessidades da noite, sendo mais confortável. O BiPAP oferece pressões diferentes para inspiração e expiração, indicado para casos mais complexos ou para quem não tolera o CPAP convencional.</div></div>
-      <div class="faq-item"><button class="faq-q" aria-expanded="false">Preciso de receita médica para comprar o CPAP?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">Sim. Para a configuração correta é necessário laudo médico com o diagnóstico e a pressão prescrita (geralmente obtidos após polissonografia). Podemos orientar você em todo esse processo após o resultado do teste STOP-BANG.</div></div>
+      <div class="faq-item"><button class="faq-q" aria-expanded="false">Preciso de receita médica para comprar o CPAP?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">Sim. Para a configuração correta é necessário laudo médico com o diagnóstico e a pressão prescrita (geralmente obtidos após polissonografia). Podemos orientar você em todo esse processo após o resultado do Teste do Sono.</div></div>
       <div class="faq-item"><button class="faq-q" aria-expanded="false">Qual máscara é mais indicada para mim?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">A escolha depende de vários fatores: respiração nasal ou oral, posição ao dormir, barba e nível de pressão prescrito. As principais opções são: máscara nasal (AirFit N20), almofadas nasais (AirFit P10) e oronasal (AirFit F20). Auxiliamos na seleção ideal para o seu perfil.</div></div>
       <div class="faq-item"><button class="faq-q" aria-expanded="false">Vocês atendem fora de Guarapuava?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">Sim! Grande parte do atendimento é realizado remotamente via WhatsApp e videochamada. Os equipamentos podem ser enviados por correio com todo o suporte para instalação e configuração. Entre em contato para saber como podemos te ajudar de qualquer lugar do Brasil.</div></div>
       <div class="faq-item"><button class="faq-q" aria-expanded="false">Qual a diferença entre AirSense 10 e AirSense 11?<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button><div class="faq-a">O AirSense 11 é a versão mais recente e avançada da ResMed. Ele trouxe melhorias como a função Care Check-In (para monitorar a adaptação nos primeiros dias), interface mais intuitiva e conectividade aprimorada. O AirSense 10 ainda é excelente e amplamente usado — ambos têm ajuste automático de pressão, umidificador integrado e app myAir para acompanhamento do tratamento.</div></div>
@@ -1102,9 +1134,9 @@ ul { list-style: none; }
 <section class="cta-section">
   <div class="container">
     <h2>Pronto para dormir <strong style="color:var(--orange)">melhor?</strong></h2>
-    <p>Faça o teste STOP-BANG agora ou fale diretamente com nossa especialista.</p>
+    <p>Faça o Teste do Sono agora ou fale diretamente com nossa especialista.</p>
     <div class="cta-actions">
-      <a href="#quiz-section" class="btn btn--orange btn--lg">🧪 Fazer o Teste STOP-BANG</a>
+      <a href="#quiz-section" class="btn btn--orange btn--lg">🌙 Fazer o Teste do Sono</a>
       <a href="https://wa.me/5542988665313?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20terapia%20do%20sono." target="_blank" rel="noopener" class="btn btn--outline-white btn--lg">Falar no WhatsApp</a>
       <a href="https://www.instagram.com/guara.care" target="_blank" rel="noopener" class="btn btn--outline-white btn--lg">@guara.care</a>
     </div>
@@ -1168,7 +1200,7 @@ ul { list-style: none; }
 <!-- ═══════════════════════════════════════════
      JAVASCRIPT — Quiz Engine + UI
 ═══════════════════════════════════════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false">
 const answers = {S:null,T:null,O:null,P:null,B:null,A:null,N:null,G:null};
 let respondentType = 'self';
 const WA = '5542988665313';
@@ -1281,44 +1313,48 @@ async function submitForm() {
   const detailsTxt = keys.map((k,i) => `${labels[i]}: ${answers[k] === 1 ? 'SIM' : 'NÃO'}`).join('\n');
 
   // ── 1. Enviar para Formspree (email) ──
-  const FORMSPREE_URL = 'https://formspree.io/f/mlgpyqry';
-  try {
-    await fetch(FORMSPREE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: `🧪 Novo Lead STOP-BANG — ${name} — Risco ${riskLabel}`,
-        nome: name,
-        email: email,
-        telefone: phone,
-        respondente: respondentType === 'other' ? `Terceiro — Paciente: ${patientName}` : 'Própria pessoa',
-        como_conheceu: source || 'Não informado',
-        pontuacao: `${score}/8 — Risco ${riskLabel}`,
-        respostas: detailsTxt,
-      })
-    });
-  } catch(e) { console.log('Formspree erro:', e); }
+  const FORMSPREE_ID = 'https://formspree.io/f/mlgpyqry'; // ← substituir após cadastro
+  if (FORMSPREE_ID !== 'https://formspree.io/f/mlgpyqry') {
+    try {
+      await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: `🧪 Novo Lead STOP-BANG — ${name} — Risco ${riskLabel}`,
+          nome: name,
+          email: email,
+          telefone: phone,
+          respondente: respondentType === 'other' ? `Terceiro — Paciente: ${patientName}` : 'Própria pessoa',
+          como_conheceu: source || 'Não informado',
+          pontuacao: `${score}/8 — Risco ${riskLabel}`,
+          respostas: detailsTxt,
+        })
+      });
+    } catch(e) { console.log('Formspree erro:', e); }
+  }
 
   // ── 2. Enviar para Google Sheets ──
-  const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycby-BXjf0ZqLXKmyNwPOt1LYqHJYFrk7gJgzgYOX4RlUH-eye6KWCqz9WME5ibZrbvEK/exec';
-  try {
-    await fetch(SHEETS_WEBHOOK, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        data: new Date().toLocaleString('pt-BR'),
-        nome: name,
-        email: email,
-        telefone: phone,
-        respondente: respondentType === 'other' ? `Terceiro: ${patientName}` : 'Própria pessoa',
-        como_conheceu: source || '',
-        pontuacao: score,
-        risco: riskLabel,
-        respostas: detailsTxt,
-      })
-    });
-  } catch(e) { console.log('Sheets erro:', e); }
+  const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycby-BXjf0ZqLXKmyNwPOt1LYqHJYFrk7gJgzgYOX4RlUH-eye6KWCqz9WME5ibZrbvEK/exec'; // ← substituir após configurar
+  if (SHEETS_WEBHOOK !== 'https://script.google.com/macros/s/AKfycby-BXjf0ZqLXKmyNwPOt1LYqHJYFrk7gJgzgYOX4RlUH-eye6KWCqz9WME5ibZrbvEK/exec') {
+    try {
+      await fetch(SHEETS_WEBHOOK, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: new Date().toLocaleString('pt-BR'),
+          nome: name,
+          email: email,
+          telefone: phone,
+          respondente: respondentType === 'other' ? `Terceiro: ${patientName}` : 'Própria pessoa',
+          como_conheceu: source || '',
+          pontuacao: score,
+          risco: riskLabel,
+          respostas: detailsTxt,
+        })
+      });
+    } catch(e) { console.log('Sheets erro:', e); }
+  }
 
   // ── 3. Abrir WhatsApp ──
   let msg = `🧪 *Teste STOP-BANG — Guaracare*%0A%0A`;
