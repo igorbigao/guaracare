@@ -549,10 +549,10 @@ ul { list-style: none; }
 .wa-bubble p { font-size: 13px; color: var(--sub); line-height: 1.6; background: var(--off-white); border-radius: 8px; padding: 12px; }
 .wa-send-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 11px; background: #25d366; color: var(--white); border: none; border-radius: 6px; margin-top: 10px; font-family: var(--font); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
 .wa-send-btn:hover { background: #1eb858; }
-.wa-trigger { width: 58px; height: 58px; border-radius: 50%; background: #25d366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 18px rgba(37,211,102,.4); transition: transform .3s, box-shadow .3s; }
+.wa-trigger { position: relative; width: 58px; height: 58px; border-radius: 50%; background: #25d366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 18px rgba(37,211,102,.4); transition: transform .3s, box-shadow .3s; z-index: 1; }
 .wa-trigger:hover { transform: scale(1.08); }
 .wa-trigger svg { width: 30px; height: 30px; }
-.wa-trigger::before { content: ''; position: absolute; width: 58px; height: 58px; border-radius: 50%; background: rgba(37,211,102,.35); animation: pulse 2.2s infinite; }
+.wa-trigger::before { content: ''; position: absolute; width: 58px; height: 58px; border-radius: 50%; background: rgba(37,211,102,.35); animation: pulse 2.2s infinite; pointer-events: none; z-index: -1; }
 @keyframes pulse { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.9);opacity:0} }
 
 /* ── RESPONSIVE ── */
@@ -1263,7 +1263,7 @@ function showFormStep() {
 }
 
 // ── Submit ──
-function submitForm() {
+async function submitForm() {
   const name  = document.getElementById('leadName').value.trim();
   const phone = document.getElementById('leadPhone').value.trim();
   const email = document.getElementById('leadEmail').value.trim();
@@ -1277,14 +1277,56 @@ function submitForm() {
 
   const keys   = ['S','T','O','P','B','A','N','G'];
   const labels = ['S-Ronco','T-Cansaço','O-Observado','P-Pressão','B-IMC','A-Idade','N-Pescoço','G-Sexo'];
-  const details = keys.map((k,i) => `${labels[i]}: ${answers[k] === 1 ? 'SIM' : 'NÃO'}`).join('%0A');
+  const detailsWA = keys.map((k,i) => `${labels[i]}: ${answers[k] === 1 ? 'SIM' : 'NÃO'}`).join('%0A');
+  const detailsTxt = keys.map((k,i) => `${labels[i]}: ${answers[k] === 1 ? 'SIM' : 'NÃO'}`).join('\n');
 
+  // ── 1. Enviar para Formspree (email) ──
+  const FORMSPREE_URL = 'https://formspree.io/f/mlgpyqry';
+  try {
+    await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `🧪 Novo Lead STOP-BANG — ${name} — Risco ${riskLabel}`,
+        nome: name,
+        email: email,
+        telefone: phone,
+        respondente: respondentType === 'other' ? `Terceiro — Paciente: ${patientName}` : 'Própria pessoa',
+        como_conheceu: source || 'Não informado',
+        pontuacao: `${score}/8 — Risco ${riskLabel}`,
+        respostas: detailsTxt,
+      })
+    });
+  } catch(e) { console.log('Formspree erro:', e); }
+
+  // ── 2. Enviar para Google Sheets ──
+  const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycby-BXjf0ZqLXKmyNwPOt1LYqHJYFrk7gJgzgYOX4RlUH-eye6KWCqz9WME5ibZrbvEK/exec';
+  try {
+    await fetch(SHEETS_WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: new Date().toLocaleString('pt-BR'),
+        nome: name,
+        email: email,
+        telefone: phone,
+        respondente: respondentType === 'other' ? `Terceiro: ${patientName}` : 'Própria pessoa',
+        como_conheceu: source || '',
+        pontuacao: score,
+        risco: riskLabel,
+        respostas: detailsTxt,
+      })
+    });
+  } catch(e) { console.log('Sheets erro:', e); }
+
+  // ── 3. Abrir WhatsApp ──
   let msg = `🧪 *Teste STOP-BANG — Guaracare*%0A%0A`;
   msg += `👤 *Preenchido por:* ${name}%0A`;
   if (respondentType === 'other') msg += `🏥 *Paciente:* ${patientName}%0A`;
   msg += `📱 *Telefone:* ${phone}%0A📧 *E-mail:* ${email}%0A`;
   if (source) msg += `📍 *Como conheceu:* ${source}%0A`;
-  msg += `%0A📊 *Pontuação: ${score}/8 — Risco ${riskLabel}*%0A%0A${details}%0A%0AOlá! Acabei de fazer o teste STOP-BANG no site da Guaracare e gostaria de receber orientação especializada.`;
+  msg += `%0A📊 *Pontuação: ${score}/8 — Risco ${riskLabel}*%0A%0A${detailsWA}%0A%0AOlá! Acabei de fazer o teste STOP-BANG no site da Guaracare e gostaria de receber orientação especializada.`;
 
   document.getElementById('formStep').style.display = 'none';
   showResult(score, name, patientName, msg);
