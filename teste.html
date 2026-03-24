@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Teste do Sono Gratuito — Guaracare</title>
+<meta name="description" content="Descubra em 2 minutos se você tem risco de apneia do sono. Avaliação gratuita da Guaracare Guarapuava."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://www.guaracare.com.br/teste"/>
+<meta property="og:title" content="Teste do Sono Gratuito — Guaracare"/>
+<meta property="og:description" content="Responda 8 perguntas e descubra seu risco de apneia do sono. Grátis, sem compromisso."/>
+<meta property="og:url" content="https://www.guaracare.com.br/teste"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#cc7940;--orange-lt:#e8935a;--orange-dk:#b5682e;
+  --orange-bg:rgba(204,121,64,.1);
+  --gray:#636363;--gray-dk:#2a2a2a;--gray-lt:#8a8a8a;
+  --border:#e0ddd9;--off:#f7f5f2;--white:#fff;
+  --safe:#3d9970;--safe-bg:#eaf7f1;
+  --warn:#c8860a;--warn-bg:#fff8e6;
+  --danger:#c0392b;--danger-bg:#fdecea;
+  --font:'Raleway',sans-serif;
+}
+html,body{min-height:100%;font-family:var(--font);background:var(--off);color:var(--gray-dk);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);height:54px;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:16px;font-weight:700;letter-spacing:.05em;color:var(--gray-dk)}
+.logo span{color:var(--orange)}
+.logo-sub{font-size:7.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-lt);display:block;margin-top:1px}
+.back-btn{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-lt);display:flex;align-items:center;gap:5px;transition:color .2s}
+.back-btn:hover{color:var(--orange)}
+
+/* PROGRESS */
+.pbar-wrap{position:fixed;top:54px;left:0;right:0;z-index:99;background:var(--white);border-bottom:1px solid var(--border);padding:9px 20px 11px;display:none}
+.pbar-meta{display:flex;justify-content:space-between;margin-bottom:7px}
+.pbar-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-lt)}
+.pbar-pct{font-size:10px;font-weight:700;color:var(--orange)}
+.pbar{height:3px;background:var(--border);border-radius:99px;overflow:hidden}
+.pbar-fill{height:100%;background:var(--orange);border-radius:99px;transition:width .35s cubic-bezier(.4,0,.2,1);width:0%}
+.pdots{display:flex;gap:3px;margin-top:7px}
+.pdot{flex:1;height:3px;border-radius:99px;background:var(--border);transition:background .3s}
+.pdot.done{background:var(--orange)}
+.pdot.active{background:var(--orange-lt)}
+
+/* MAIN */
+.main{padding-top:54px;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.screen{width:100%;max-width:500px;padding:28px 20px 48px;display:none}
+.screen.active{display:block;animation:fadeUp .3s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* WELCOME */
+.wlc-icon{font-size:60px;text-align:center;margin:16px 0 18px;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.wlc-h1{font-size:clamp(1.65rem,6vw,2.1rem);font-weight:300;text-align:center;line-height:1.22;margin-bottom:10px}
+.wlc-h1 strong{font-weight:800;color:var(--orange)}
+.wlc-sub{font-size:14px;color:var(--gray-lt);line-height:1.65;text-align:center;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.method-chip{display:inline-flex;align-items:center;gap:7px;background:var(--orange-bg);border:1px solid rgba(204,121,64,.25);color:var(--orange-dk);padding:8px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-bottom:24px}
+.method-chip:hover{background:rgba(204,121,64,.18)}
+.method-box{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;font-size:13px;color:var(--gray-lt);line-height:1.7;margin-bottom:24px;display:none}
+.method-box.open{display:block;animation:fadeUp .25s}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.mstat{background:var(--off);border-radius:8px;padding:10px 6px;text-align:center}
+.mstat strong{display:block;font-size:16px;font-weight:800;color:var(--orange)}
+.mstat span{font-size:10px;color:var(--gray-lt);margin-top:3px;display:block;line-height:1.4}
+.btn-start{width:100%;padding:18px;border:none;border-radius:8px;background:var(--orange);color:var(--white);font-family:var(--font);font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:9px}
+.btn-start:hover{background:var(--orange-dk);transform:translateY(-2px);box-shadow:0 8px 24px rgba(204,121,64,.35)}
+.privacy-hint{font-size:11px;color:var(--gray-lt);text-align:center;margin-top:12px}
+
+/* FORM */
+.sh2{font-size:1.25rem;font-weight:300;color:var(--gray-dk);line-height:1.3;margin-bottom:6px}
+.sh2 strong{font-weight:800;color:var(--orange)}
+.ssub{font-size:13px;color:var(--gray-lt);line-height:1.6;margin-bottom:24px}
+.f-group{margin-bottom:14px}
+.f-label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-lt);margin-bottom:5px}
+.f-input,.f-sel{width:100%;padding:13px 15px;border:2px solid var(--border);border-radius:8px;font-family:var(--font);font-size:14px;color:var(--gray-dk);background:var(--white);outline:none;transition:border-color .2s}
+.f-input:focus,.f-sel:focus{border-color:var(--orange)}
+.f-input.err{border-color:var(--danger);animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.f-sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238a8a8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.resp-btn{padding:14px 10px;border:2px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;text-align:center;font-family:var(--font);transition:all .2s}
+.resp-btn.active{border-color:var(--orange);background:var(--orange-bg)}
+.resp-btn .ri{font-size:22px;margin-bottom:4px}
+.resp-btn .rl{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--gray-dk)}
+.resp-btn .rs{font-size:10px;color:var(--gray-lt);margin-top:2px}
+.patient-row{display:none;margin-bottom:14px}
+.priv{font-size:11px;color:var(--gray-lt);display:flex;gap:7px;align-items:flex-start;line-height:1.5;margin-top:4px}
+
+/* QUESTION */
+.q-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.q-text{font-size:clamp(1.05rem,4vw,1.3rem);font-weight:500;color:var(--gray-dk);line-height:1.4;margin-bottom:14px}
+.q-hint{font-size:12px;color:var(--gray-lt);line-height:1.55;background:var(--white);border-left:3px solid var(--orange);padding:9px 13px;border-radius:0 6px 6px 0;margin-bottom:22px}
+.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.ans-btn{padding:20px 14px;border:2px solid var(--border);border-radius:10px;background:var(--white);cursor:pointer;font-family:var(--font);font-size:14px;font-weight:600;color:var(--gray-dk);display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .2s;line-height:1.3;text-align:center}
+.ans-btn:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px);box-shadow:0 4px 16px rgba(204,121,64,.15)}
+.ans-btn.sel-yes{border-color:var(--orange);background:var(--orange-bg);color:var(--orange-dk)}
+.ans-btn.sel-no{border-color:var(--gray-lt);background:#f5f4f2;color:var(--gray)}
+.ans-icon{font-size:28px}
+.num-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.num-inp{width:100%;padding:15px;border:2px solid var(--border);border-radius:8px;font-family:var(--font);font-size:20px;font-weight:700;color:var(--gray-dk);background:var(--white);outline:none;text-align:center;transition:border-color .2s}
+.num-inp:focus{border-color:var(--orange)}
+.bmi-res{font-size:13px;font-weight:600;min-height:20px;margin-bottom:16px;padding:9px 13px;border-radius:6px;background:var(--off);display:none}
+.bmi-res.show{display:block}
+
+/* NAV */
+.q-nav{display:flex;gap:10px}
+.btn-back{background:var(--white);color:var(--gray);padding:14px 18px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-back:hover{border-color:var(--gray-dk);color:var(--gray-dk)}
+.btn-next,.btn-submit{flex:1;background:var(--orange);color:var(--white);padding:15px;border:2px solid var(--orange);border-radius:8px;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn-next:hover:not(:disabled),.btn-submit:hover{background:var(--orange-dk);border-color:var(--orange-dk)}
+.btn-next:disabled{background:var(--border);border-color:var(--border);color:var(--gray-lt);cursor:not-allowed}
+.btn-submit{font-size:13px;padding:17px;display:flex;align-items:center;justify-content:center;gap:9px}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(204,121,64,.35)}
+.btn-submit:disabled{background:var(--border);border-color:var(--border);color:var(--gray-lt);cursor:not-allowed;transform:none;box-shadow:none}
+
+/* LOADING */
+#screen-loading{text-align:center;padding-top:80px}
+.spin{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULT */
+#screen-result{text-align:center}
+.res-ring{width:118px;height:118px;border-radius:50%;margin:8px auto 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid}
+.rn{font-size:2.7rem;font-weight:800;line-height:1}
+.rl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.res-badge{display:inline-block;padding:4px 14px;border-radius:4px;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+.res-title{font-size:1.4rem;font-weight:300;color:var(--gray-dk);margin-bottom:10px}
+.res-desc{font-size:13px;color:var(--gray-lt);line-height:1.7;margin-bottom:22px;text-align:left}
+.res-recs{background:var(--white);border-radius:10px;padding:16px 18px;margin-bottom:22px;text-align:left}
+.res-recs h4{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-dk);margin-bottom:10px}
+.res-recs li{font-size:13px;color:var(--gray-lt);padding:4px 0;display:flex;gap:9px;line-height:1.5}
+.res-recs li::before{content:'→';color:var(--orange);font-weight:700;flex-shrink:0}
+.btn-wa{width:100%;padding:17px;border:none;border-radius:8px;background:#25d366;color:var(--white);font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:10px}
+.btn-wa:hover{background:#1eb858;transform:translateY(-2px)}
+.btn-retry{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;background:none;color:var(--gray-lt);font-family:var(--font);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn-retry:hover{border-color:var(--gray);color:var(--gray-dk)}
+.res-disc{font-size:11px;color:var(--gray-lt);margin-top:16px;padding:11px 13px;background:var(--off);border-radius:6px;line-height:1.6;border-left:3px solid var(--border);text-align:left}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gray-dk);color:var(--white);padding:11px 20px;border-radius:7px;font-size:13px;font-weight:600;transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:999;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:420px){
+  .f-row{grid-template-columns:1fr}
+  .mstats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div>
+    <div class="logo">GUARA<span>CARE</span></div>
+    <span class="logo-sub">Produtos Médicos</span>
+  </div>
+  <a href="/" class="back-btn">
+    <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    Voltar ao site
+  </a>
+</header>
+
+<div class="pbar-wrap" id="pbarWrap">
+  <div class="pbar-meta">
+    <span class="pbar-label" id="pbarLabel"></span>
+    <span class="pbar-pct" id="pbarPct"></span>
+  </div>
+  <div class="pbar"><div class="pbar-fill" id="pbarFill"></div></div>
+  <div class="pdots" id="pdots"></div>
+</div>
+
+<main class="main">
+
+  <!-- WELCOME -->
+  <div class="screen active" id="screen-welcome">
+    <div class="wlc-icon">🌙</div>
+    <h1 class="wlc-h1">Você dorme bem<br/>de <strong>verdade?</strong></h1>
+    <p class="wlc-sub">Apneia do sono afeta 1 em cada 4 adultos — e a maioria não sabe que tem. Faça a avaliação gratuita em 2 minutos e receba orientação da nossa especialista.</p>
+
+    <div style="text-align:center">
+      <div class="method-chip" onclick="toggleMethod()">
+        🔬 Sobre este teste &nbsp;<svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+    </div>
+    <div class="method-box" id="methodBox">
+      <p>Este teste usa o <strong>questionário STOP-BANG</strong>, desenvolvido pela Universidade de Toronto (2008). É o método de triagem de apneia do sono mais validado do mundo, adotado por hospitais e sociedades médicas em mais de 50 países.</p>
+      <div class="mstats">
+        <div class="mstat"><strong>96%</strong><span>Sensibilidade para apneia grave</span></div>
+        <div class="mstat"><strong>8 perguntas</strong><span>Menos de 2 minutos</span></div>
+        <div class="mstat"><strong>+50 países</strong><span>Validado mundialmente</span></div>
+      </div>
+      <p style="margin-top:12px;font-size:11px">⚕️ Ferramenta de triagem — não substitui diagnóstico médico.</p>
+    </div>
+
+    <button class="btn-start" onclick="show('lead')">
+      Iniciar Avaliação Gratuita
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <p class="privacy-hint">🔒 Dados protegidos. Usados somente para orientação pela nossa especialista.</p>
+  </div>
+
+  <!-- LEAD -->
+  <div class="screen" id="screen-lead">
+    <h2 class="sh2">Antes de começar,<br/><strong>nos diga quem você é</strong></h2>
+    <p class="ssub">Nossa especialista entrará em contato com orientações personalizadas sobre o seu resultado.</p>
+
+    <div class="resp-grid">
+      <button class="resp-btn active" id="resp-self" onclick="setResp('self')">
+        <div class="ri">🙋</div>
+        <div class="rl">Eu mesmo(a)</div>
+        <div class="rs">Respondendo por mim</div>
+      </button>
+      <button class="resp-btn" id="resp-other" onclick="setResp('other')">
+        <div class="ri">👨‍👩‍👧</div>
+        <div class="rl">Por outra pessoa</div>
+        <div class="rs">Familiar / paciente</div>
+      </button>
+    </div>
+
+    <div class="patient-row" id="patientRow">
+      <div class="f-group">
+        <label class="f-label">Nome do paciente</label>
+        <input class="f-input" type="text" id="patientName" placeholder="Nome de quem será avaliado"/>
+      </div>
+    </div>
+
+    <div class="f-row">
+      <div class="f-group">
+        <label class="f-label">Nome completo *</label>
+        <input class="f-input" type="text" id="leadName" placeholder="Seu nome"/>
+      </div>
+      <div class="f-group">
+        <label class="f-label">WhatsApp *</label>
+        <input class="f-input" type="tel" id="leadPhone" placeholder="(42) 99999-9999" oninput="maskPhone(this)"/>
+      </div>
+    </div>
+
+    <div class="f-group">
+      <label class="f-label">E-mail *</label>
+      <input class="f-input" type="email" id="leadEmail" placeholder="seu@email.com"/>
+    </div>
+
+    <div class="f-group">
+      <label class="f-label">Como nos conheceu? <span style="text-transform:none;letter-spacing:0;font-weight:400">(opcional)</span></label>
+      <select class="f-sel" id="leadSource">
+        <option value="">Selecione...</option>
+        <option>Google</option>
+        <option>Instagram (@guara.care)</option>
+        <option>Indicação de amigo ou familiar</option>
+        <option>Indicação médica</option>
+        <option>Recebi pelo WhatsApp</option>
+        <option>Recebi por e-mail</option>
+        <option>Outro</option>
+      </select>
+    </div>
+
+    <div class="priv">🔒 <span>Seus dados são protegidos e usados exclusivamente para orientação pela nossa especialista. Não compartilhamos com terceiros.</span></div>
+
+    <div class="q-nav" style="margin-top:22px">
+      <button class="btn-back" onclick="show('welcome')">← Voltar</button>
+      <button class="btn-next" onclick="validateLead()">Iniciar Teste →</button>
+    </div>
+  </div>
+
+  <!-- Q0: S -->
+  <div class="screen" id="screen-q0">
+    <div class="q-label">Pergunta 1 de 8</div>
+    <div class="q-text">Você <strong>ronca alto</strong> — audível através de portas fechadas — ou seu parceiro(a) já pediu para você dormir em outro cômodo?</div>
+    <div class="q-hint">💡 Ronco alto e frequente é o sinal mais comum de apneia obstrutiva do sono.</div>
+    <div class="ans-grid">
+      <button class="ans-btn" id="a0y" onclick="ans(0,'S',1,this)"><span class="ans-icon">✅</span>Sim</button>
+      <button class="ans-btn" id="a0n" onclick="ans(0,'S',0,this)"><span class="ans-icon">❌</span>Não</button>
+    </div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('lead')">← Voltar</button>
+      <button class="btn-next" id="n0" disabled onclick="show('q1')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q1: T -->
+  <div class="screen" id="screen-q1">
+    <div class="q-label">Pergunta 2 de 8</div>
+    <div class="q-text">Você frequentemente se sente <strong>cansado(a), fatigado(a) ou sonolento(a)</strong> durante o dia?</div>
+    <div class="q-hint">💡 Sonolência diurna excessiva ocorre quando o sono noturno é fragmentado por paradas respiratórias.</div>
+    <div class="ans-grid">
+      <button class="ans-btn" id="a1y" onclick="ans(1,'T',1,this)"><span class="ans-icon">✅</span>Sim</button>
+      <button class="ans-btn" id="a1n" onclick="ans(1,'T',0,this)"><span class="ans-icon">❌</span>Não</button>
+    </div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('q0')">← Voltar</button>
+      <button class="btn-next" id="n1" disabled onclick="show('q2')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q2: O -->
+  <div class="screen" id="screen-q2">
+    <div class="q-label">Pergunta 3 de 8</div>
+    <div class="q-text">Alguém já observou você <strong>parar de respirar</strong>, engasgar ou se afogar durante o sono?</div>
+    <div class="q-hint">💡 Pausas respiratórias observadas por terceiros são evidência direta de apneia obstrutiva.</div>
+    <div class="ans-grid">
+      <button class="ans-btn" id="a2y" onclick="ans(2,'O',1,this)"><span class="ans-icon">✅</span>Sim</button>
+      <button class="ans-btn" id="a2n" onclick="ans(2,'O',0,this)"><span class="ans-icon">❌</span>Não / Durmo sozinho(a)</button>
+    </div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('q1')">← Voltar</button>
+      <button class="btn-next" id="n2" disabled onclick="show('q3')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q3: P -->
+  <div class="screen" id="screen-q3">
+    <div class="q-label">Pergunta 4 de 8</div>
+    <div class="q-text">Você tem ou está em tratamento para <strong>pressão arterial alta</strong> (hipertensão)?</div>
+    <div class="q-hint">💡 Hipertensão resistente ao tratamento é frequentemente associada à apneia do sono não diagnosticada.</div>
+    <div class="ans-grid">
+      <button class="ans-btn" id="a3y" onclick="ans(3,'P',1,this)"><span class="ans-icon">✅</span>Sim</button>
+      <button class="ans-btn" id="a3n" onclick="ans(3,'P',0,this)"><span class="ans-icon">❌</span>Não</button>
+    </div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('q2')">← Voltar</button>
+      <button class="btn-next" id="n3" disabled onclick="show('q4')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q4: B -->
+  <div class="screen" id="screen-q4">
+    <div class="q-label">Pergunta 5 de 8</div>
+    <div class="q-text">Informe seu <strong>peso e altura</strong> para calcularmos o IMC.</div>
+    <div class="q-hint">💡 IMC acima de 35 é fator de risco independente para apneia obstrutiva do sono.</div>
+    <div class="num-row">
+      <div><label class="f-label">Peso (kg)</label><input class="num-inp" type="number" id="peso" placeholder="85" min="30" max="300" oninput="calcBMI()"/></div>
+      <div><label class="f-label">Altura (cm)</label><input class="num-inp" type="number" id="altura" placeholder="170" min="100" max="250" oninput="calcBMI()"/></div>
+    </div>
+    <div class="bmi-res" id="bmiRes"></div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('q3')">← Voltar</button>
+      <button class="btn-next" id="n4" disabled onclick="show('q5')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q5: A -->
+  <div class="screen" id="screen-q5">
+    <div class="q-label">Pergunta 6 de 8</div>
+    <div class="q-text">Qual é a sua <strong>idade</strong>?</div>
+    <div class="q-hint">💡 A prevalência de apneia aumenta significativamente após os 50 anos de idade.</div>
+    <label class="f-label">Idade (anos)</label>
+    <input class="num-inp" type="number" id="idade" placeholder="45" min="18" max="120" oninput="checkAge()" style="max-width:160px"/>
+    <div class="q-nav" style="margin-top:20px">
+      <button class="btn-back" onclick="show('q4')">← Voltar</button>
+      <button class="btn-next" id="n5" disabled onclick="show('q6')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q6: N -->
+  <div class="screen" id="screen-q6">
+    <div class="q-label">Pergunta 7 de 8</div>
+    <div class="q-text">A circunferência do seu <strong>pescoço é maior que 40 cm</strong>?</div>
+    <div class="q-hint">💡 Pescoço &gt; 40 cm (mulheres) ou &gt; 43 cm (homens) aumenta o risco de obstrução das vias aéreas durante o sono.</div>
+    <div class="ans-grid">
+      <button class="ans-btn" id="a6y" onclick="ans(6,'N',1,this)"><span class="ans-icon">✅</span>Sim</button>
+      <button class="ans-btn" id="a6n" onclick="ans(6,'N',0,this)"><span class="ans-icon">❌</span>Não / Não sei</button>
+    </div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('q5')">← Voltar</button>
+      <button class="btn-next" id="n6" disabled onclick="show('q7')">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q7: G -->
+  <div class="screen" id="screen-q7">
+    <div class="q-label">Pergunta 8 de 8</div>
+    <div class="q-text">Qual é o seu <strong>sexo biológico</strong>?</div>
+    <div class="q-hint">💡 O sexo masculino tem maior prevalência de apneia obstrutiva do sono em comparação ao feminino.</div>
+    <div class="ans-grid">
+      <button class="ans-btn" id="a7y" onclick="ans(7,'G',1,this)"><span class="ans-icon">👨</span>Masculino</button>
+      <button class="ans-btn" id="a7n" onclick="ans(7,'G',0,this)"><span class="ans-icon">👩</span>Feminino</button>
+    </div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="show('q6')">← Voltar</button>
+      <button class="btn-next" id="n7" disabled onclick="submitQuiz()">Ver Resultado →</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="screen" id="screen-loading" style="text-align:center;padding-top:60px">
+    <div class="spin"></div>
+    <p style="font-size:14px;color:var(--gray-lt);margin-top:6px">Calculando seu resultado...</p>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result">
+    <div id="resultContent"></div>
+  </div>
+
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const WA       = '5542988665313';
+const FORMSPREE= 'https://formspree.io/f/mlgpyqry';
+const SHEETS   = 'https://script.google.com/macros/s/AKfycby-BXjf0ZqLXKmyNwPOt1LYqHJYFrk7gJgzgYOX4RlUH-eye6KWCqz9WME5ibZrbvEK/exec';
+
+const answers  = {S:null,T:null,O:null,P:null,B:null,A:null,N:null,G:null};
+let respType   = 'self';
+let curScreen  = 'welcome';
+
+const FLOW = ['welcome','lead','q0','q1','q2','q3','q4','q5','q6','q7','loading','result'];
+const QSCR = ['q0','q1','q2','q3','q4','q5','q6','q7'];
+
+// ── SHOW SCREEN ──
+function show(name) {
+  document.getElementById('screen-' + curScreen).classList.remove('active');
+  const next = document.getElementById('screen-' + name);
+  next.classList.add('active');
+  curScreen = name;
+  updatePbar();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── PROGRESS BAR ──
+function updatePbar() {
+  const wrap = document.getElementById('pbarWrap');
+  if (curScreen === 'welcome') { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+
+  const qi = QSCR.indexOf(curScreen);
+  let step = curScreen === 'lead' ? 1 : qi >= 0 ? qi + 2 : 11;
+  const total = 10;
+  const pct = Math.min(Math.round(((step-1)/total)*100), 100);
+
+  document.getElementById('pbarFill').style.width = pct + '%';
+  document.getElementById('pbarPct').textContent = pct + '%';
+  document.getElementById('pbarLabel').textContent =
+    curScreen === 'lead'   ? 'Identificação' :
+    qi >= 0                ? `Pergunta ${qi+1} de 8` :
+    curScreen === 'result' ? 'Resultado' : 'Calculando...';
+
+  const dots = document.getElementById('pdots');
+  dots.innerHTML = '';
+  for (let i = 0; i < 10; i++) {
+    const d = document.createElement('div');
+    d.className = 'pdot' + (i < step-1 ? ' done' : i === step-1 ? ' active' : '');
+    dots.appendChild(d);
+  }
+}
+
+// ── METHOD TOGGLE ──
+function toggleMethod() {
+  document.getElementById('methodBox').classList.toggle('open');
+}
+
+// ── RESPONDENT ──
+function setResp(t) {
+  respType = t;
+  document.getElementById('resp-self').classList.toggle('active', t==='self');
+  document.getElementById('resp-other').classList.toggle('active', t==='other');
+  document.getElementById('patientRow').style.display = t==='other' ? 'block' : 'none';
+}
+
+// ── VALIDATE LEAD ──
+function validateLead() {
+  const name  = document.getElementById('leadName').value.trim();
+  const phone = document.getElementById('leadPhone').value.trim();
+  const email = document.getElementById('leadEmail').value.trim();
+  let ok = true;
+
+  [['leadName',name],['leadPhone',phone],['leadEmail',email]].forEach(([id,v]) => {
+    const el = document.getElementById(id);
+    if (!v) { el.classList.add('err'); setTimeout(()=>el.classList.remove('err'),600); ok=false; }
+  });
+  if (!ok) { toast('Preencha nome, WhatsApp e e-mail para continuar.'); return; }
+  if (!email.includes('@')) { toast('Insira um e-mail válido.'); document.getElementById('leadEmail').classList.add('err'); return; }
+  show('q0');
+}
+
+// ── ANSWER ──
+function ans(qi, key, val, btn) {
+  const y = document.getElementById('a'+qi+'y');
+  const n = document.getElementById('a'+qi+'n');
+  y.classList.remove('sel-yes','sel-no');
+  n.classList.remove('sel-yes','sel-no');
+  btn.classList.add(val===1?'sel-yes':'sel-no');
+  answers[key] = val;
+  document.getElementById('n'+qi).disabled = false;
+}
+
+// ── BMI ──
+function calcBMI() {
+  const p = parseFloat(document.getElementById('peso').value);
+  const h = parseFloat(document.getElementById('altura').value);
+  const res = document.getElementById('bmiRes');
+  const btn = document.getElementById('n4');
+  if (p>0 && h>0) {
+    const b = p/((h/100)**2);
+    answers['B'] = b>35?1:0;
+    const c = b>35?'var(--danger)':b>25?'var(--warn)':'var(--safe)';
+    const lbl = b>35?'⚠️ Acima de 35 — fator de risco':b>25?'🟡 Sobrepeso':'✅ Dentro do limite para este fator';
+    res.innerHTML = `<strong style="color:${c}">IMC ${b.toFixed(1)}</strong> &nbsp;—&nbsp; ${lbl}`;
+    res.classList.add('show'); btn.disabled=false;
+  } else { res.classList.remove('show'); btn.disabled=true; }
+}
+
+// ── AGE ──
+function checkAge() {
+  const a = parseInt(document.getElementById('idade').value);
+  if (a>=18&&a<=120) { answers['A']=a>50?1:0; document.getElementById('n5').disabled=false; }
+  else document.getElementById('n5').disabled=true;
+}
+
+// ── PHONE MASK ──
+function maskPhone(inp) {
+  let v=inp.value.replace(/\D/g,'').substring(0,11);
+  if(v.length>=7) v=`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+  else if(v.length>=3) v=`(${v.slice(0,2)}) ${v.slice(2)}`;
+  inp.value=v;
+}
+
+// ── SUBMIT ──
+async function submitQuiz() {
+  show('loading');
+
+  const name   = document.getElementById('leadName').value.trim();
+  const phone  = document.getElementById('leadPhone').value.trim();
+  const email  = document.getElementById('leadEmail').value.trim();
+  const source = document.getElementById('leadSource').value;
+  const patient= respType==='other'?(document.getElementById('patientName').value.trim()||'Não informado'):name;
+  const score  = Object.values(answers).reduce((s,v)=>s+(v||0),0);
+  const risk   = score<=2?'Baixo':score<=4?'Intermediário':'Alto';
+
+  const keys  = ['S','T','O','P','B','A','N','G'];
+  const lbls  = ['S-Ronco','T-Cansaço','O-Observado','P-Pressão','B-IMC','A-Idade','N-Pescoço','G-Sexo'];
+  const dTxt  = keys.map((k,i)=>`${lbls[i]}: ${answers[k]===1?'SIM':'NÃO'}`).join('\n');
+  const dWA   = keys.map((k,i)=>`${lbls[i]}: ${answers[k]===1?'SIM':'NÃO'}`).join('%0A');
+
+  // Formspree
+  try { await fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:`🌙 Teste do Sono — ${name} — Risco ${risk}`,nome:name,email,telefone:phone,respondente:respType==='other'?`Terceiro — Paciente: ${patient}`:'Própria pessoa',como_conheceu:source||'Não informado',pontuacao:`${score}/8 — Risco ${risk}`,respostas:dTxt})}); } catch(e){}
+
+  // Sheets
+  try { await fetch(SHEETS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:new Date().toLocaleString('pt-BR'),nome:name,email,telefone:phone,respondente:respType==='other'?`Terceiro: ${patient}`:'Própria pessoa',como_conheceu:source||'',pontuacao:score,risco:risk,respostas:dTxt})}); } catch(e){}
+
+  // WA msg
+  let msg=`🌙 *Teste do Sono — Guaracare*%0A%0A`;
+  msg+=`👤 *Preenchido por:* ${name}%0A`;
+  if(respType==='other') msg+=`🏥 *Paciente:* ${patient}%0A`;
+  msg+=`📱 *WhatsApp:* ${phone}%0A📧 *E-mail:* ${email}%0A`;
+  if(source) msg+=`📍 *Como conheceu:* ${source}%0A`;
+  msg+=`%0A📊 *Pontuação: ${score}/8 — Risco ${risk}*%0A%0A${dWA}%0A%0AOlá! Acabei de fazer o Teste do Sono no site da Guaracare e gostaria de orientação especializada.`;
+
+  showResult(score,name,risk,msg);
+}
+
+// ── RESULT ──
+function showResult(score,name,risk,waMsg) {
+  const C = {
+    Baixo:{rc:'var(--safe)',rb:'var(--safe-bg)',badge:`PONTUAÇÃO ${score}/8 — RISCO BAIXO`,title:'Baixo risco de apneia do sono',desc:`Boa notícia, <strong>${name.split(' ')[0]}</strong>! Sua pontuação indica baixo risco. Ainda assim, se você apresentar sintomas como ronco frequente ou cansaço ao acordar, uma avaliação clínica é sempre bem-vinda.`,recs:['Mantenha horários regulares de sono','Evite álcool próximo ao horário de dormir','Se os sintomas mudarem, refaça o teste','Consulte um especialista em caso de dúvida'],waTxt:'Falar com a Especialista'},
+    Intermediário:{rc:'var(--warn)',rb:'var(--warn-bg)',badge:`PONTUAÇÃO ${score}/8 — RISCO INTERMEDIÁRIO`,title:'Risco intermediário de apneia',desc:`<strong>${name.split(' ')[0]}</strong>, sua pontuação indica risco <strong>intermediário</strong>. É altamente recomendável uma avaliação clínica com nossa especialista e, possivelmente, uma polissonografia para diagnóstico definitivo.`,recs:['Avaliação clínica especializada recomendada','Converse com seu médico sobre polissonografia','Monitore seus sintomas de perto','Entre em contato para orientação personalizada'],waTxt:'Agendar Avaliação — Falar Agora'},
+    Alto:{rc:'var(--danger)',rb:'var(--danger-bg)',badge:`PONTUAÇÃO ${score}/8 — ALTO RISCO`,title:'Alto risco de apneia do sono',desc:`<strong>${name.split(' ')[0]}</strong>, sua pontuação indica <strong>alto risco</strong>. O tratamento precoce é essencial para proteger sua saúde cardiovascular. Entre em contato agora — quanto antes iniciado o tratamento, melhores os resultados.`,recs:['Avaliação urgente com especialista recomendada','Alto risco de complicações cardiovasculares','Solicite polissonografia ao seu médico','O CPAP pode transformar sua qualidade de sono'],waTxt:'🚨 Falar Agora com a Especialista'},
+  };
+  const c=C[risk];
+  document.getElementById('resultContent').innerHTML=`
+    <div class="res-ring" style="background:${c.rb};border-color:${c.rc}">
+      <div class="rn" style="color:${c.rc}">${score}</div>
+      <div class="rl" style="color:${c.rc}">de 8</div>
+    </div>
+    <div class="res-badge" style="background:${c.rb};color:${c.rc}">${c.badge}</div>
+    <h2 class="res-title">${c.title}</h2>
+    <p class="res-desc">${c.desc}</p>
+    <div class="res-recs"><h4>Recomendações</h4><ul>${c.recs.map(r=>`<li>${r}</li>`).join('')}</ul></div>
+    <a href="https://wa.me/${WA}?text=${waMsg}" target="_blank" rel="noopener">
+      <button class="btn-wa"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>${c.waTxt}</button>
+    </a>
+    <button class="btn-retry" onclick="resetQuiz()">↩ Refazer o teste</button>
+    <div class="res-disc"><strong>⚕️ Aviso clínico:</strong> Este teste usa o questionário STOP-BANG, validado internacionalmente, mas <strong>não substitui avaliação médica</strong>. O diagnóstico definitivo de apneia requer polissonografia prescrita por médico.</div>
+  `;
+  show('result');
+}
+
+// ── RESET ──
+function resetQuiz() {
+  Object.keys(answers).forEach(k=>answers[k]=null);
+  respType='self';
+  for(let i=0;i<8;i++){
+    const y=document.getElementById('a'+i+'y');
+    const n=document.getElementById('a'+i+'n');
+    if(y){y.classList.remove('sel-yes','sel-no');}
+    if(n){n.classList.remove('sel-yes','sel-no');}
+    const nb=document.getElementById('n'+i);
+    if(nb) nb.disabled=true;
+  }
+  ['peso','altura','idade'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  const br=document.getElementById('bmiRes');
+  if(br){br.classList.remove('show');br.innerHTML='';}
+  document.getElementById('resp-self').classList.add('active');
+  document.getElementById('resp-other').classList.remove('active');
+  document.getElementById('patientRow').style.display='none';
+  show('welcome');
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
